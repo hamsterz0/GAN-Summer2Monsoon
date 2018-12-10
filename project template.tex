@@ -1,0 +1,238 @@
+\documentclass{article}
+
+% if you need to pass options to natbib, use, e.g.:
+% \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading nips_2018
+
+% ready for submission
+% \usepackage{nips_2018}
+
+% to compile a preprint version, e.g., for submission to arXiv, add
+% add the [preprint] option:
+% \usepackage[preprint]{nips_2018}
+
+% to compile a camera-ready version, add the [final] option, e.g.:
+\usepackage[final]{nips_2018}
+
+% to avoid loading the natbib package, add option nonatbib:
+% \usepackage[nonatbib]{nips_2018}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{graphicx}
+
+\title{Summer2Monsoon: Using CycleGAN for Image-to-Image Translation} 
+
+% The \author macro works with any number of authors. There are two
+% commands used to separate the names and addresses of multiple
+% authors: \And and \AND.
+%
+% Using \And between authors leaves it to LaTeX to determine where to
+% break the lines. Using \AND forces a line break at that point. So,
+% if LaTeX puts 3 of 4 authors names on the first line, and the last
+% on the second line, try using \AND instead of \And before the third
+% author name.
+
+\author{
+  Arnav Garg \\
+  Department of Computer Science\\
+  UCLA\\
+  \texttt{arnavgarg@cs.ucla.edu} \\
+  \And
+  Simranjit Singh \\
+  Department of Computer Science\\
+  UCLA\\
+  \texttt{simranjit@cs.ucla.edu} \\
+   \And
+  Tanmay Sardesai \\
+  Department of Computer Science\\
+  UCLA\\
+  \texttt{tanmays@cs.ucla.edu} \\
+}
+
+\begin{document}
+% \nipsfinalcopy is no longer used
+
+\maketitle
+\section{Introduction}
+
+Experiments on self-driving cars have been conducted since at least the 1920’s [7]
+and the first truly autonomous cars appeared in the 1980’s, with Carnegie 
+Mellon University’s Navlab [8]. Waymo, a subsidiary of Alphabet, 
+began their self driving car project in 2009. Waymo uses deep learning 
+to interpret, predict and respond to data collected from it’s 6 million 
+miles driven on public roads and 5 billion driven in simulation [9]. 
+The way an autonomous car reacts to a situation is hugely dependent on 
+the weather conditions of the environment it is in. For example, a 
+self-driving car would drive slower and more cautiously during the 
+monsoon season than during the summer time due to various environment
+ factors such as lack of visibility and slippery roads. 
+ Training the deep learning model for self-driving cars on 
+ simulations of different weather conditions can be a daunting 
+ task as weather conditions are seasonal and can immensely delay 
+ the time needed for data collection and training.
+
+We propose a novel method of translating frames/images of environments 
+taken in the summer season to the monsoon season and back. 
+This would allow the data collected by researchers during 
+summer to transform into monsoon conditions and train their 
+models on both these environments simultaneously thereby 
+decreasing the time needed for data collection and training.
+
+To solve this, we plan to use CycleGAN, which performs image to image 
+translation, by learning the mapping between input image and output image 
+using a training set of unpaired image pairs [1]. CycleGAN captures the 
+special characteristics of one domain and finds out how these 
+characteristics could be translated into the other domain, all in the 
+absence of any paired training examples. In our research, one image 
+collection would be of images taken in during the summer season and 
+the other during the monsoon season. We will discuss this is in greater 
+detail in Section \ref{headings}.  
+
+There are various other applications of our research, which include 
+solving the problem of de-raining and helping the film industry (Hollywood)
+ capture the essence of Monsoon, off-season. There has been various research 
+ done on de-raining, as discussed in Section \ref{gen_inst} and we believe that our 
+ proposed model would be able to solve the problem by training it to 
+ transform rainy images to summer.
+
+ \begin{figure}[htb!]
+  \centering
+  \includegraphics[width=99mm]{image.png}
+  \caption{Taken from nvidia paper. Goal of this project is to do better 
+  than this using cycle gan \label{overflow}}
+\end{figure}
+
+\section{Related Work}
+\label{gen_inst}
+
+Generative Adversarial Networks (GANs) [2] were introduced by 
+Ian Goodfellow in 2014 and have been very successful in image generation 
+applications. GANs have one neural network that generates data while the 
+other discriminates between real and fake (generated) data. Over time 
+both networks get better at their tasks and the generator is now able to 
+mimic the distribution of the real world. GAN was used for a variety of 
+applications and it also paved way for a series of GAN-family work for 
+different applications. As stated before, the work that we will be 
+exploring in this paper is CycleGAN [1]. If we have two domains, X and Y, 
+and two generators $G: X \rightarrow Y$ and $F: Y \rightarrow  X$ then we try to achieve a 
+cycle-consistency such that $F(G(X)) \approx X$ and $G(F(Y)) \approx Y$.
+
+There is also other work done in the domain of image-to-image translation. 
+The authors of CycleGAN previously proposed pix2pix [5] which used 
+Conditional GANs. pix2pix also has multiple applications but one of 
+the constraints is that pix2pix needs paired data. This is sometimes 
+impossible or a really difficult task. For example in our case we 
+would need images taken from the same exact location in 2 different 
+seasons for our dataset. Conditional GANs are also used to achieve 
+de-raining [4]. The work in this, and other papers on de-raining, 
+doesn’t completely solve the problem as they only remove rain from 
+the image but some aspects of the image still look the same as 
+the sky will still look cloudy and the roads will look wet even 
+after removing the rain. These models only work on monsoon to summer 
+translations but not vice versa. Some related work on image-to-image 
+translation is also done by Nvidia using coupled GAN [3]. Concurrent 
+to the work done in CycleGAN, Yi et al [6], published a paper on dual-GAN. 
+We will be reviewing these two papers more in detail in the final report.
+
+\section{Research Plan and Expected Outcome}
+\label{headings}
+
+For this project we will train the implementation cycleGAN provided by the 
+authors of [1] on our dataset. Both Pytorch and Torch implementations are 
+available. Our dataset consists of 2 sets of images: summer images and 
+rainy images. There is no one-to-one correspondence between the two sets. 
+We will first search for the image datasets and if we do not find any, we 
+plan to scrape images of summer and rainy season from the web and scale 
+them to same size (say 256 x 256). Since the cycleGAN assumes some 
+underlying relationship between the images from two sets, our first 
+attempt will be to obtain images of the same place corresponding to the 
+two seasons and divide them into train and test datasets. The images can
+be obtained using google or Flickr API for a particular place and 
+categorize into summer vs rainy based on the time of the year the 
+pictures were taken. If the model works well on this dataset, we will 
+attempt to train the model on datasets where the images in each set can 
+be unrelated.
+
+The first obvious expected outcome of our project is that the training 
+error of our model converges and we are able to train the model. In that 
+case, we will evaluate if the model works well on the test dataset and is 
+able to produce images that are able to fool the human eyes. We will also 
+quantitatively evaluate the results. The first measure is the cycle loss 
+that is the difference between the original image and the one obtained 
+after complete cycle. For example, give a test image from the summer 
+dataset, we first convert it to rainy and then back to summer and measure 
+how different it is from the original image. Although this is not a very 
+good measure of what we are trying to achieve because any translation that 
+can be reversed will have a low cycle loss but it definitely is a sanity 
+check for the results.
+
+If our model trains and tests well on images of the same place, we will 
+evaluate the performance of the model on images that may be from different 
+places. We plan to compare our results with existing approaches that solve 
+the problem of image to image translation or image de-raining.
+
+Generative networks are considered much harder to train than discriminative 
+networks. Similarly GANs are difficult to train and require a balance 
+between the discriminator and generator networks for the training loss 
+to converge. GANs are also highly sensitive to hyperparameters. 
+As a part of this project, we also plan to evaluate the impact of 
+hyperparameters on training the cycleGAN network. We aim to study and 
+experiment methods suggested by the authors of CycleGAN to mitigate the 
+model parameters oscillation.
+
+\section*{References}
+
+\small
+\label{[1]}[1] J. Zhu, T. Park, P. Isola, and A. A. Efros. Unpaired image-to-image 
+translation using cycle-consistent adversarial networks. 
+In International Conference on Computer Vision (ICCV), to appear, 2017
+
+\label{[2]}[2] I. Goodfellow, J. Pouget-Abadie, M. Mirza, B. Xu, D. Warde-Farley, 
+S. Ozair, A. Courville, and Y. Ben- gio. Generative adversarial nets. 
+In NIPS, 2014.
+
+\label{[3]}[3] M.-Y. Liu, T. Breuel, and J. Kautz. Unsupervised 
+image-to-image translation networks. arXiv preprint arXiv:1703.00848, 2017
+
+\label{[4]}[4] H. Zhang, V. A. Sindagi, and V. M. Patel. Image de-raining using a conditional generative 
+adversarial network. arXiv preprint arXiv:1701.05957, 2017.
+
+\label{[5]}[5] P. Isola, J.-Y. Zhu, T. Zhou, and A. A. Efros. 
+Image-to-image translation with conditional adversarial networks. 
+In CVPR, 2017
+
+\label{[6]}[6] Z. Yi, H. Zhang, T. Gong, Tan, and M. Gong. Dualgan: 
+Unsupervised dual learning for image-to-image translation. 
+In ICCV, 2017
+
+\label{[7]}[7] "'Phantom Auto' will tour city". The Milwaukee Sentinel. 
+Google News Archive. 8 December 1926. Retrieved 2013.
+
+\label{[8]}[8] "Carnegie Mellon". Navlab: The Carnegie Mellon University Navigation Laboratory. 
+The Robotics Institute. Retrieved 2014.
+
+\label{[9]}[9] Hawkins, Andrew J. “Inside the Lab Where Waymo Is Building 
+the Brains for Its Driverless Cars.” The Verge, The Verge, 
+www.theverge.com/2018/5/9/17307156/google-waymo-driverless-cars-deep-learning-neural-net-interview, 2018.
+% [1] Alexander, J.A.\ \& Mozer, M.C.\ (1995) Template-based algorithms
+% for connectionist rule extraction. In G.\ Tesauro, D.S.\ Touretzky and
+% T.K.\ Leen (eds.), {\it Advances in Neural Information Processing
+%   Systems 7}, pp.\ 609--616. Cambridge, MA: MIT Press.
+
+% [2] Bower, J.M.\ \& Beeman, D.\ (1995) {\it The Book of GENESIS:
+%   Exploring Realistic Neural Models with the GEneral NEural SImulation
+%   System.}  New York: TELOS/Springer--Verlag.
+
+% [3] Hasselmo, M.E., Schnell, E.\ \& Barkai, E.\ (1995) Dynamics of
+% learning and recall at excitatory recurrent synapses and cholinergic
+% modulation in rat hippocampal region CA3. {\it Journal of
+%   Neuroscience} {\bf 15}(7):5249-5262.
+
+\end{document}
