@@ -154,11 +154,31 @@ For evaluating our image to image translation model, we conducted two online sur
 
 From Table \ref{table:1} we can see that for the Survey 1, only 59.1\% of the participants were able to correctly guess if the image was real or fake and for Survey 2, only 59.7\% of the people were able to a guess correctly. It is interesting to note that out of all the fake images in our survey, only 54.3\% and 57.8\% of the participants in Survey 1 and  Survey 2 respectively were able to correctly classify that our model generated image was fake, which is impressive compared to other researches done in this area. Although, as the number of participants in both the surveys are very low, the result from this empirical data may or may not be close to the true result. We aim to continue our evaluation and collect more data to have a more accurate result in the future.
 
-@arnav explain the table
+\subsection{Structural Similarity Index (SSIM)}
 
-\subsection{SSIM}
 
-@arnav do this
+% TODO: Put figure here. 
+
+
+To evaluate our image-to-image model for de-raining, we compared our model generated de-rained image to the ground truth value and the results presented by Fu et al, in their research paper \textit{"Clearing the Skies: A deep network architecture for single-image rain removal"} as shown in Figure ??. 
+
+\begin{table} [h!]
+\centering
+\begin{tabular}{ | c | c | c | c |}
+\hline
+ Type & Total & Real & Fake \\ 
+\hline
+ Survey 1 (Sunny) &  0.591 & 0.825 & 0.543 \\  
+ Survey 2 (Rainy) & 0.597 & 0.716 & 0.578 \\
+ \hline
+\end{tabular}
+\caption{Survey Results}
+\label{table:2}
+\end{table}
+
+Table \ref{table:2} shows the SSIM scores for the ground truth, Fu et. al model, our model and the noisy image. It can be seen that our model performed comparable to Fu et. al model however wasn't able to beat their accuracy. Our understanding is that our model fell short because our training dataset contained rain noise that were only vertical strokes of rain. When we tested our model on Fu et. al's testing dataset, which contained diagonal rain strokes, our model couldn't outperform their model. Due to time constraints we weren't able to generate our desired dataset and train our model again. For our future work, we plan on training our model again with a more diverse training dataset, to see if it helps improve our accuracy and outperform Fu et. al's mode. 
+
+It also surprising to see that the SSIM score for the rain image of the bird was lower than the SSIM score of our model generated de-rained image and we plan on looking further into why that might be the case as part of our future work. 
 
 \section{Limitation \& Discussions}
 
