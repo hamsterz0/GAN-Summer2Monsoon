@@ -164,15 +164,17 @@ To evaluate our image-to-image model for de-raining, we compared our model gener
 
 \begin{table} [h!]
 \centering
-\begin{tabular}{ | c | c | c | c |}
+\begin{tabular}{ | c | c | c | c | c |}
 \hline
- Type & Total & Real & Fake \\ 
+ Image & Ground Truth & Paper (Fu et. al) & Ours & Rainy Image \\ 
 \hline
- Survey 1 (Sunny) &  0.591 & 0.825 & 0.543 \\  
- Survey 2 (Rainy) & 0.597 & 0.716 & 0.578 \\
+ Umbrella & 1 & 0.88 & 0.83 & 0.80 \\
+ Rabbit & 1 & 0.85 & 0.765 & 0.767 \\
+ Bird & 1 & 0.82 & 0.702 & 0.55 \\
+ 100 images (avg) & 1 & 0.89 & 0.80 & 0.62 \\
  \hline
 \end{tabular}
-\caption{Survey Results}
+\caption{SSIM Scores}
 \label{table:2}
 \end{table}
 
