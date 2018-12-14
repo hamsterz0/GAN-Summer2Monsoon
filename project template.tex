@@ -27,6 +27,8 @@
 \usepackage{microtype}      % microtypography
 \usepackage{graphicx}
 \usepackage{float, subcaption}
+\usepackage{ amssymb }
+\usepackage{amsmath}
 
 \title{Summer2Monsoon: Using CycleGAN for Image-to-Image Translation} 
 
@@ -234,7 +236,6 @@ From Table \ref{table:1} we can see that for the Survey 1, only 59.1\% of the pa
 
 \subsection{Structural Similarity Index (SSIM)}
 
-
 % TODO: Put figure here. 
 \begin{figure}[H]
 	\centering
@@ -264,6 +265,69 @@ To evaluate our image-to-image model for de-raining, we compared our model gener
 Table \ref{table:2} shows the SSIM scores for the ground truth, Fu et. al model, our model and the noisy image. It can be seen that our model performed comparable to Fu et. al model however wasn't able to beat their accuracy. Our understanding is that our model fell short because our training dataset contained rain noise that were only vertical strokes of rain. When we tested our model on Fu et. al's testing dataset, which contained diagonal rain strokes, our model couldn't outperform their model. Due to time constraints we weren't able to generate our desired dataset and train our model again. For our future work, we plan on training our model again with a more diverse training dataset, to see if it helps improve our accuracy and outperform Fu et. al's mode. 
 
 It also surprising to see that the SSIM score for the rain image of the bird was lower than the SSIM score of our model generated de-rained image and we plan on looking further into why that might be the case as part of our future work. 
+
+\subsection{Graphs}
+
+The total loss defined by the authors of CycleGAN is:
+$$
+	\mathcal{L}(G, F, D_Y, D_X) = \mathcal{L}_{GAN}(G, D_Y, X, Y) + \mathcal{L}_{GAN}(F, D_X, Y, X) + \lambda \mathcal{L}_{CYC}(G, F)
+$$
+Here:
+\begin{align*}
+	G &= \text{Generator: } X \rightarrow Y \\
+	F &= \text{Generator: }  Y \rightarrow X \\
+	D_X &= \text{Discriminator for: } X \text{ and } F(Y) \\
+	D_Y &= \text{Discriminator for: } Y \text{ and } G(X) 
+\end{align*}
+
+From Figure \ref{totalloss} we see that the total loss is slowly converging to 0. However, it's interesting to note that, even though the total loss is converging, the individual loss of the two Generators is not as shown in Figure \ref{gloss} and Figure \ref{floss}. We assume that this might happen because of the varied distribution of images in our domain. We plan on analyzing this further as part of our future work. 
+
+
+
+\begin{figure}[t]
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.9\linewidth, height=35mm]{images/total_loss}
+		\caption{Without Savitzky–Golay filter}
+	\end{subfigure}
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=.9\linewidth,height=35mm]{images/total_loss_smooth.png}
+		\caption{With Savitzky–Golay filter}
+	\end{subfigure}
+	\caption{Total Loss per Epoch}
+	\label{totalloss}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.9\linewidth, height=35mm]{images/g}
+		\caption{Without Savitzky–Golay filter}
+	\end{subfigure}
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=.9\linewidth,height=35mm]{images/sg}
+		\caption{With Savitzky–Golay filter}
+	\end{subfigure}
+	\caption{Generator G Loss per Epoch}
+	\label{gloss}
+	
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.9\linewidth, height=35mm]{images/f}
+		\caption{Without Savitzky–Golay filter}
+	\end{subfigure}
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=.9\linewidth,height=35mm]{images/sf}
+		\caption{With Savitzky–Golay filter}
+	\end{subfigure}
+	\caption{Generator F Loss per Epoch}
+	\label{floss}
+\end{figure}
+
+
 
 \section{Limitation \& Discussions}
 \label{limitationsanddiscussions}
