@@ -158,6 +158,28 @@ Due to the failures from our first attempt we decided to focus on a dataset whic
 
 \section{Results}
 
+\begin{figure}[H]
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.9\linewidth, height=35mm]{images/s2m_1}
+	\end{subfigure}
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=.9\linewidth,height=35mm]{images/s2m_2.png}
+	\end{subfigure}
+	\caption{Summer to Rainy Tranformation}
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.9\linewidth, height=35mm]{images/m2s_1.png}
+	\end{subfigure}
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=.9\linewidth,height=35mm]{images/m2s_2.png}
+	\end{subfigure}
+	\caption{Rainy to Summer Tranformation}
+	\label{fig:v1_failure}
+\end{figure}
+
 We performed two different types of studies to help evaluate our results. For our image to image translation, we performed a perceptual study where we created a survey and asked participants to classify if images were real or fake and for the Single Image De-raining, as we had ground truth for these images, we computed the Structural Similarity Index Scores (SSIM) between to de-rained images and the ground-truth to evaluate how well our model performed. We have discussed both of these studies on in the subsection below.
 
 \subsection{Perceptual Study}
