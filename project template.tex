@@ -252,10 +252,6 @@ From Table \ref{table:1} we can see that for the Survey 1, only 59.1\% of the pa
 
 \subsection{Structural Similarity Index (SSIM)}
 
-<<<<<<< HEAD
-% TODO: Put figure here. 
-=======
->>>>>>> 843c455481f233b6410a6574242a46ef3c1c84ae
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{images/ssim.png}
@@ -289,14 +285,14 @@ It also surprising to see that the SSIM score for the rain image of the bird was
 
 The total loss defined by the authors of CycleGAN is:
 $$
-	\mathcal{L}(G, F, D_Y, D_X) = \mathcal{L}_{GAN}(G, D_Y, X, Y) + \mathcal{L}_{GAN}(F, D_X, Y, X) + \lambda \mathcal{L}_{CYC}(G, F)
+	\mathcal{L}(G, F, D_Y, D_X) = \mathcal{L}_{GAN}(G, D_Y, X, Y) + \mathcal{L}_{GAN}(F, D_X, Y, X) + \lambda \mathcal{L}_{CYC}(G, F) + \alpha \mathcal{L}_{IDT}(G, F)
 $$
 Here:
 \begin{align*}
 	G &= \text{Generator: } X \rightarrow Y \\
 	F &= \text{Generator: }  Y \rightarrow X \\
 	D_X &= \text{Discriminator for: } X \text{ and } F(Y) \\
-	D_Y &= \text{Discriminator for: } Y \text{ and } G(X) 
+	D_Y &= \text{Discriminator for: } Y \text{ and } G(X)
 \end{align*}
 
 \begin{figure}[H]
