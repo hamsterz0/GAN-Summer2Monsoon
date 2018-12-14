@@ -121,6 +121,26 @@ Some of the other applications of our research include solving the problem of de
 
 \section{Results}
 
+We performed two different types of studies to help evaluate our results. For our image to image translation, we performed a perceptual study where we created a survey and asked participants to classify if images were real or fake and for the Single Image De-raining, as we had ground truth for these images, we computed the Structural Similarity Index Scores (SSIM) between to de-rained images and the ground-truth to evaluate how well our model performed. We have discussed both these studies on both these datasets in the subsection below.
+
+\subsection{Image-to-Image Translation}
+
+\begin{table} [h!]
+\centering
+\begin{tabular}{ | c | c | c | c |}
+\hline
+ Type & Total & Real & Fake \\ 
+\hline
+ Sunny &  0.591 & 0.825 & 0.543 \\  
+ Rainy & 0.597 & 0.716 & 0.578 \\
+ \hline
+\end{tabular}
+\caption{Survey Results}
+\label{table:1}
+\end{table}
+
+For evaluating our image to image translation model, we conducted two online surveys, one with only summer images and the other with rainy images, in which we showed multiple fake (our model generated) and real images to the participant. In both the surveys, the participants were shown each image for 2 seconds, and then were asked to identify if the image they saw was fake or real. The results of the surveys are shown in table \ref{table:1}.
+
 
 
 
