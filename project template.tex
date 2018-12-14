@@ -27,7 +27,7 @@
 \usepackage{microtype}      % microtypography
 \usepackage{graphicx}
 
-\title{Summer2Rainy: Using CycleGAN for Image-to-Image Translation} 
+\title{Summer2Monsoon: Using CycleGAN for Image-to-Image Translation} 
 
 % The \author macro works with any number of authors. There are two
 % commands used to separate the names and addresses of multiple
@@ -69,45 +69,46 @@
 
 \section{Introduction}
 
-Experiments on self-driving cars have been conducted since at least the 1920’s [7]
-and the first truly autonomous cars appeared in the 1980’s, with Carnegie 
-Mellon University’s Navlab [8]. Waymo, a subsidiary of Alphabet, 
-began their self driving car project in 2009. Waymo uses deep learning 
-to interpret, predict and respond to data collected from it’s 6 million 
-miles driven on public roads and 5 billion driven in simulation [9]. 
-The way an autonomous car reacts to a situation is hugely dependent on 
-the weather conditions of the environment it is in. For example, a 
-self-driving car would drive slower and more cautiously during the 
-monsoon season than during the summer time due to various environment
- factors such as lack of visibility and slippery roads. 
- Training the deep learning model for self-driving cars on 
- simulations of different weather conditions can be a daunting 
- task as weather conditions are seasonal and can immensely delay 
- the time needed for data collection and training.
+In the past couple of years, there has been a lot of research done on cross domain image to image translation, where an image is taken from one domain and then transformed into an image of the target domain. This is particularly important as a large number of Computer Vision and Machine Learning problems can viewed as an image-to-image translation problem. For example, noise reduction can be considered a mapping between a noisy image to a corresponding noise free image. For many tasks, it is either very difficult or impossible to find paired data, and so in-order to find a mapping between different domains of images, an un-supervised setting is required. The goal of unsupervised image to image translation is to learn the mapping of special characteristics of one image collection and finding how these characteristics could be translated into the other image collection, all in the absence of any paired training examples.
 
-We propose a novel method of translating frames/images of environments 
-taken in the summer season to the monsoon season and back. 
-This would allow the data collected by researchers during 
-summer to transform into monsoon conditions and train their 
-models on both these environments simultaneously thereby 
-decreasing the time needed for data collection and training.
+In this paper, we  perform image-to-image translation using cycle-consistent adversarial network, also known as CycleGAN,  to translate a summer scene into a rainy one and visa versa and also perform single image deraining. Some of the applications of this include, helping the film industry shoot movies irrespective of the seasonal cycle and helping self-driving car researchers in data collection by transforming summer images to rainy images, which would allow them to train their models on both these environments simultaneously thereby decreasing the time needed for data collection and training.
 
-To solve this, we plan to use CycleGAN, which performs image to image 
-translation, by learning the mapping between input image and output image 
-using a training set of unpaired image pairs [1]. CycleGAN captures the 
-special characteristics of one domain and finds out how these 
-characteristics could be translated into the other domain, all in the 
-absence of any paired training examples. In our research, one image 
-collection would be of images taken in during the summer season and 
-the other during the monsoon season. We will discuss this is in greater 
-detail in Section \ref{headings}.  
 
-There are various other applications of our research, which include 
-solving the problem of de-raining and helping the film industry (Hollywood)
- capture the essence of Monsoon, off-season. There has been various research 
- done on de-raining, as discussed in Section \ref{gen_inst} and we believe that our 
- proposed model would be able to solve the problem by training it to 
- transform rainy images to summer.
+%    Experiments on self-driving cars have been conducted since at least the 1920’s [7]
+%    and the first truly autonomous cars appeared in the 1980’s, with Carnegie 
+%    Mellon University’s Navlab [8]. Waymo, a subsidiary of Alphabet, 
+%    began their self driving car project in 2009. Waymo uses deep learning 
+%    to interpret, predict and respond to data collected from it’s 6 million 
+%    miles driven on public roads and 5 billion driven in simulation [9]. 
+%    The way an autonomous car reacts to a situation is hugely dependent on 
+%    the weather conditions of the environment it is in. For example, a 
+%    self-driving car would drive slower and more cautiously during the 
+%    monsoon season than during the summer time due to various environment
+%     factors such as lack of visibility and slippery roads. 
+%     Training the deep learning model for self-driving cars on 
+%     simulations of different weather conditions can be a daunting 
+%     task as weather conditions are seasonal and can immensely delay 
+%     the time needed for data collection and training.
+
+%We propose a novel method of translating frames/images of environments 
+%taken in the summer season to the monsoon season and back. 
+%This would allow the data collected by researchers during 
+%summer to transform into monsoon conditions and train their 
+%models on both these environments simultaneously thereby 
+%decreasing the time needed for data collection and training.
+
+%To solve this, we plan to use CycleGAN, which performs image to image 
+%translation, by learning the mapping between input image and output image 
+%using a training set of unpaired image pairs [1]. CycleGAN captures the 
+%special characteristics of one domain and finds out how these 
+%characteristics could be translated into the other domain, all in the 
+%absence of any paired training examples. In our research, one image 
+%collection would be of images taken in during the summer season and 
+%the other during the monsoon season. We will discuss this is in greater 
+%detail in Section \ref{headings}.  
+
+Some of the other applications of our research include solving the problem of de-raining . There has been various research 
+ done on de-raining, as discussed in Section \ref{gen_inst} and we believe that our proposed model would be able to solve the problem by training it to transform rainy images to summer.
 
  \begin{figure}[htb!]
   \centering
@@ -120,6 +121,9 @@ solving the problem of de-raining and helping the film industry (Hollywood)
 
 \section{Results}
 
+
+
+
 \section{Limitation \& Discussions}
 
 \section{Research Plan and Expected Outcome (ARCHIVE)}
@@ -127,7 +131,7 @@ solving the problem of de-raining and helping the film industry (Hollywood)
 
 For this project we will train the implementation cycleGAN provided by the 
 authors of [1] on our dataset. Both Pytorch and Torch implementations are 
-available. Our dataset consists of 2 sets of images: summer images and 
+available. Our dataset consists of 2 sets of images: summer images and :
 rainy images. There is no one-to-one correspondence between the two sets. 
 We will first search for the image datasets and if we do not find any, we 
 plan to scrape images of summer and rainy season from the web and scale 
