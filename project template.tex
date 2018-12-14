@@ -130,12 +130,13 @@ For training our models we used n1-highmem-2 (2 vCPUS, 13 GB memory) google comp
 For our first attempt, we used sunny and rainy images from \textit{Camera as Weather Sensor: Estimating Weather Information from Single Images} [7]. This model didn't work as well as expected. On further inspection we saw some evidence of overfitting. For example as shown in \ref{fig:v1_failure} one can see 2 people in sky of the fake image. We attributed this to bad training data as the data didn't truly represent the real world. One of the reasons why we saw this was because the dataset is classified as sunny or rain based on an estimation that is computed using geotags and by crawling the web for weather properties. 
 
 \begin{figure}
-	\begin{subfigure}{.5\textwidth}
-		\centering
+	\centering
+	\begin{subfigure}{.7\textwidth}
+	\centering
 		\includegraphics[width=.9\linewidth]{images/v1_real_A.png}
 		\caption{Real sunny image}
 	\end{subfigure}
-	\begin{subfigure}{.5\textwidth}
+	\begin{subfigure}{.7\textwidth}
 		\centering
 		\includegraphics[width=.9\linewidth]{images/v1_fake_B.png}
 		\caption{Fake rainy image}
@@ -348,11 +349,11 @@ From Figure \ref{totalloss} we see that the total loss is slowly converging to 0
 
 As we looked further at our results we noticed some limitations in training summer to monsoon image translation model for CycleGAN. The biggest problem is the quality and distribution of training images. Most of the images captured during training are not good inputs because they are often blurred due to rain drops on cameras. Training a model with such blurred images affects the quality of output images. That is while refining our dataset we removed such images. A side effect to this was that most of the images are not true monsoon weather images, they are images taken few minutes or hours after it had stopped raining. This is why in our generated images we never have pouring rain. We still have some overfitting in our model. Anytime we have color for top of the building similar to the sky, while translation we sometimes also translate color of the building. Some of these failure case examples can be seen in Figure \ref{fig:failures}
 
-Most of these results are expected as you can see from the graphs in the previous section that the Generator loss diverged even though cycle loss converged. 
+Most of these results are expected as you can see from the Figure \ref{gloss} and \ref{floss} in the previous section that the Generator loss diverged even though cycle loss converged.
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[scale=0.45]{images/failures}
+	\includegraphics[scale=0.55]{images/failures}
 	\caption{Failures of our current model}
 	\label{fig:failures}
 \end{figure}
