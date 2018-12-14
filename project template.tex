@@ -141,7 +141,7 @@ For our first attempt, we used sunny and rainy images from \textit{Camera as Wea
 	\caption{Example of overfitting during the first training}
 	\label{fig:v1_failure}
 \end{figure}
-
+\raggedbottom
 \subsection{Attempt 2}
 
 Due to the failures from our first attempt we decided to focus on a dataset which had similar images while still depicting the real world distribution. This is why we used images from \textit{Oxford Robotcar Dataset} [8]. This led to some really good results due in most cases. One of the limitations of this dataset was that due to images taken from a camera on a car there was always a glare on the camera so sky was white in most images in both dataset. This is why while running the model on images not in the dataset we some times saw no change made by the Generator.
