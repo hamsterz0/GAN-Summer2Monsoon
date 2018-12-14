@@ -127,7 +127,7 @@ For training our models we used n1-highmem-2 (2 vCPUS, 13 GB memory) google comp
 
 For our first attempt, we used sunny and rainy images from \textit{Camera as Weather Sensor: Estimating Weather Information from Single Images} [7]. This model didn't work as well as expected. On further inspection we saw some evidence of overfitting. For example as shown in \ref{fig:v1_failure} one can see 2 people in sky of the fake image. We attributed this to bad training data as the data didn't truly represent the real world. One of the reasons why we saw this was because the dataset is classified as sunny or rain based on an estimation that is computed using geotags and by crawling the web for weather properties. 
 
-\begin{figure}[H]
+\begin{figure}[h!]
 	\begin{subfigure}{.5\textwidth}
 		\centering
 		\includegraphics[width=.9\linewidth]{images/v1_real_A.png}
@@ -144,12 +144,42 @@ For our first attempt, we used sunny and rainy images from \textit{Camera as Wea
 
 \subsection{Attempt 2}
 
-Due to the failures from our first attempt we decided to focus on a dataset which had similar images while still depicting the real world distribution. This is why we used images from \textit{Oxford Robotcar Dataset}[8]. 
+Due to the failures from our first attempt we decided to focus on a dataset which had similar images while still depicting the real world distribution. This is why we used images from \textit{Oxford Robotcar Dataset} [8]. This led to some really good results due in most cases. One of the limitations of this dataset was that due to images taken from a camera on a car there was always a glare on the camera so sky was white in most images in both dataset. This is why while running the model on images not in the dataset we some times saw no change made by the Generator.
 
 \subsection{Attempt 3}
 
-[9]
+Finally in this attempt we combined the datasets from above two attempts and \textit{CNRPark+EXT
+A Dataset for Visual Occupancy Detection of Parking Lots}[9]. We then manually refined this dataset removing images that may have lead to failures in the previous attempts. This iteration of training gave us some really good results. As shown in Figure \ref{fig:v3_good_AtoB} and Figure \ref{fig:v3_good_BtoA}. There were still some failures and limitations that we saw in this approach that are discussed in Section \ref{limitationsanddiscussions}
 
+\begin{figure}
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=.9\linewidth]{images/v3_real_A.png}
+		\caption{Real sunny images}
+	\end{subfigure}
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=.9\linewidth]{images/v3_fake_B.png}
+		\caption{Fake rainy images}
+	\end{subfigure}
+	\caption{Results from attempt 3 for sunny to monsoon}
+	\label{fig:v3_good_AtoB}
+\end{figure}
+
+\begin{figure}
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=.9\linewidth]{images/v3_real_B.png}
+		\caption{Real rainy images}
+	\end{subfigure}
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=.9\linewidth]{images/v3_fake_A.png}
+		\caption{Fake sunny images}
+	\end{subfigure}
+	\caption{Results from attempt 3 for monsoon to sunny}
+	\label{fig:v3_good_BtoA}
+\end{figure}
 
 \subsection{De-raining}
 
@@ -236,6 +266,7 @@ Table \ref{table:2} shows the SSIM scores for the ground truth, Fu et. al model,
 It also surprising to see that the SSIM score for the rain image of the bird was lower than the SSIM score of our model generated de-rained image and we plan on looking further into why that might be the case as part of our future work. 
 
 \section{Limitation \& Discussions}
+\label{limitationsanddiscussions}
 
 TODO
 
