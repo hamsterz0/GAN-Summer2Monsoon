@@ -127,7 +127,7 @@ For training our models we used n1-highmem-2 (2 vCPUS, 13 GB memory) google comp
 
 For our first attempt, we used sunny and rainy images from \textit{Camera as Weather Sensor: Estimating Weather Information from Single Images} [7]. This model didn't work as well as expected. On further inspection we saw some evidence of overfitting. For example as shown in \ref{fig:v1_failure} one can see 2 people in sky of the fake image. We attributed this to bad training data as the data didn't truly represent the real world. One of the reasons why we saw this was because the dataset is classified as sunny or rain based on an estimation that is computed using geotags and by crawling the web for weather properties. 
 
-\begin{figure}[h!]
+\begin{figure}
 	\begin{subfigure}{.5\textwidth}
 		\centering
 		\includegraphics[width=.9\linewidth]{images/v1_real_A.png}
@@ -183,7 +183,23 @@ A Dataset for Visual Occupancy Detection of Parking Lots}[9]. We then manually r
 
 \subsection{De-raining}
 
-[10]
+In parallel to the above work we also attempted to train a CycleGAN model for de-raining. Most of the current systems use paired data for de-raining. This is why we decided to use the same dataset as it was easily available and it was possible to evaluate our results compared to some other baselines. The dataset we used for this was taken from \textit{Clearing the Skies: A deep network architecture for single-image rain removal}[10]. This model also gave us some good results as 
+you can see in \ref{fig:de_raining}
+
+\begin{figure}
+	\begin{subfigure}{\textwidth}
+		\centering
+		\includegraphics[width=.9\linewidth]{images/deraining_AtoB}
+		\caption{Adding rain to images}
+	\end{subfigure}
+	\begin{subfigure}{\textwidth}
+		\centering
+		\includegraphics[width=.9\linewidth]{images/deraining_BtoA}
+		\caption{Deraining transformation}
+	\end{subfigure}
+	\caption{Results from deraining}
+	\label{fig:de_raining}
+\end{figure}
 
 
 \section{Results}
