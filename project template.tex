@@ -26,6 +26,7 @@
 \usepackage{nicefrac}       % compact symbols for 1/2, etc.
 \usepackage{microtype}      % microtypography
 \usepackage{graphicx}
+\usepackage{float, subcaption}
 
 \title{Summer2Monsoon: Using CycleGAN for Image-to-Image Translation} 
 
@@ -73,23 +74,6 @@ In the past couple of years, there has been a lot of research done on cross doma
 
 In this paper, we  perform image-to-image translation using cycle-consistent adversarial network, also known as CycleGAN,  to translate a summer scene into a rainy one and visa versa. We also perform single image de-raining. Some of the applications of this include, helping the film industry shoot movies irrespective of the seasonal cycle and helping self-driving car researchers in data collection by transforming summer images to rainy images, which would allow them to train their models on both these environments simultaneously thereby decreasing the time needed for data collection and training.
 
-
-%    Experiments on self-driving cars have been conducted since at least the 1920’s [7]
-%    and the first truly autonomous cars appeared in the 1980’s, with Carnegie 
-%    Mellon University’s Navlab [8]. Waymo, a subsidiary of Alphabet, 
-%    began their self driving car project in 2009. Waymo uses deep learning 
-%    to interpret, predict and respond to data collected from it’s 6 million 
-%    miles driven on public roads and 5 billion driven in simulation [9]. 
-%    The way an autonomous car reacts to a situation is hugely dependent on 
-%    the weather conditions of the environment it is in. For example, a 
-%    self-driving car would drive slower and more cautiously during the 
-%    monsoon season than during the summer time due to various environment
-%     factors such as lack of visibility and slippery roads. 
-%     Training the deep learning model for self-driving cars on 
-%     simulations of different weather conditions can be a daunting 
-%     task as weather conditions are seasonal and can immensely delay 
-%     the time needed for data collection and training.
-
 %We propose a novel method of translating frames/images of environments 
 %taken in the summer season to the monsoon season and back. 
 %This would allow the data collected by researchers during 
@@ -129,6 +113,38 @@ Some of the other applications of our research include solving the problem of de
 \textbf{Single Image de-raining} is a difficult problem to solve due to its ill-posed nature and unlike video based methods, images do not provide any temporal information. Traditionally it has been approached as considering an image y to be the sum of rain streak r and background image x, i.e. $y = x + r$. This is why most of the research approaches try to decompose the image into a background image and rain streak image. One of the earliest methods is sparse coding based [a] where image is decomposed using learned dictionary atoms that can sparsely represent two components clearly. Gaussian mixture models based priors [c] have also been used in image decomposition frameworks that can capture different orientations and scales of rain streaks. CNNs have also been employed to directly learn non linear mapping between synthesized images and ground truths successfully for image de-raining [d] [e] [f]. Conditional GANs are also used to achieve de-raining [4]. The work in this, and other papers on de-raining, doesn’t completely solve the problem as they only remove rain from the image but some aspects of the image still look the same as the sky will still look cloudy and the roads will look wet even after removing the rain. These models only work on monsoon to summer translations but not vice versa.
 
 \section{Implementation}
+\label{implementation}
+
+\subsection{CycleGAN and training setup}
+
+As mentioned before we use CycleGAN, which performs image to image  translation, by learning the mapping between input image and output image using a training set of unpaired image pairs. CycleGAN captures the special characteristics of one domain and finds out how these characteristics could be translated into the other domain, all in the absence of any paired training examples.
+
+For this project we will train the PyTorch implementation of cycleGAN that is publicly available on GitHub. Our dataset consists of 2 sets of images: summer images and rainy images. There is no one-to-one correspondence between the two sets. Since cycleGAN assumes some underlying relationship between the images from two sets, our first attempt will be to obtain images of the same dataset for two seasons and divide them into train and test datasets. We will show in the next few subsections how we approached this problem.
+
+For training our models we used n1-highmem-2 (2 vCPUS, 13 GB memory) google compute engine. We also had one NVIDIA Tesla K80.
+
+\subsection{Attempt 1}
+
+For our first attempt, we used sunny and rainy images from \textit{Camera as Weather Sensor: Estimating Weather Information from Single Images} [7]. This model didn't work as well as expected. On further inspection we saw some evidence of overfitting. For example as shown in \ref{fig:v1_failure} one can see 2 people in sky of the fake image. We attributed this to bad training data as the data didn't truly represent the real world. One of the reasons why we saw this was because the dataset is classified as sunny or rain based on an estimation that is computed using geotags and by crawling the web for weather properties. 
+
+\begin{figure}[H]
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=.9\linewidth]{images/v1_real_A.png}
+		\caption{Real sunny image}
+	\end{subfigure}
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=.9\linewidth]{images/v1_fake_B.png}
+		\caption{Fake rainy image}
+	\end{subfigure}
+	\caption{Example of overfitting during the first training}
+	\label{fig:v1_failure}
+\end{figure}
+
+\subsection{Attempt 2}
+
+Due to the failures from our first attempt we decided to focus on a dataset which had similar  images while still depicting the real world distribution.  TODO
 
 \section{Results}
 
@@ -160,53 +176,7 @@ For evaluating our image to image translation model, we conducted two online sur
 
 \section{Limitation \& Discussions}
 
-
-
-%\section{Research Plan and Expected Outcome (ARCHIVE)}
-%\label{headings}
-%
-%For this project we will train the implementation cycleGAN provided by the 
-%authors of [1] on our dataset. Both Pytorch and Torch implementations are 
-%available. Our dataset consists of 2 sets of images: summer images and :
-%rainy images. There is no one-to-one correspondence between the two sets. 
-%We will first search for the image datasets and if we do not find any, we 
-%plan to scrape images of summer and rainy season from the web and scale 
-%them to same size (say 256 x 256). Since the cycleGAN assumes some 
-%underlying relationship between the images from two sets, our first 
-%attempt will be to obtain images of the same place corresponding to the 
-%two seasons and divide them into train and test datasets. The images can
-%be obtained using google or Flickr API for a particular place and 
-%categorize into summer vs rainy based on the time of the year the 
-%pictures were taken. If the model works well on this dataset, we will 
-%attempt to train the model on datasets where the images in each set can 
-%be unrelated.
-%
-%The first obvious expected outcome of our project is that the training 
-%error of our model converges and we are able to train the model. In that 
-%case, we will evaluate if the model works well on the test dataset and is 
-%able to produce images that are able to fool the human eyes. We will also 
-%quantitatively evaluate the results. The first measure is the cycle loss 
-%that is the difference between the original image and the one obtained 
-%after complete cycle. For example, give a test image from the summer 
-%dataset, we first convert it to rainy and then back to summer and measure 
-%how different it is from the original image. Although this is not a very 
-%good measure of what we are trying to achieve because any translation that 
-%can be reversed will have a low cycle loss but it definitely is a sanity 
-%check for the results.
-%
-%If our model trains and tests well on images of the same place, we will 
-%evaluate the performance of the model on images that may be from different 
-%places. We plan to compare our results with existing approaches that solve 
-%the problem of image to image translation or image de-raining.
-%
-%Generative networks are considered much harder to train than discriminative 
-%networks. Similarly GANs are difficult to train and require a balance 
-%between the discriminator and generator networks for the training loss 
-%to converge. GANs are also highly sensitive to hyperparameters. 
-%As a part of this project, we also plan to evaluate the impact of 
-%hyperparameters on training the cycleGAN network. We aim to study and 
-%experiment methods suggested by the authors of CycleGAN to mitigate the 
-%model parameters oscillation.
+TODO
 
 \section{Conclusion \& Future Work}
 
@@ -239,14 +209,6 @@ In CVPR, 2017
 Unsupervised dual learning for image-to-image translation. 
 In ICCV, 2017
 
-\label{[7]}[7] "'Phantom Auto' will tour city". The Milwaukee Sentinel. 
-Google News Archive. 8 December 1926. Retrieved 2013.
-
-\label{[8]}[8] "Carnegie Mellon". Navlab: The Carnegie Mellon University Navigation Laboratory. 
-The Robotics Institute. Retrieved 2014.
-
-\label{[9]}[9] Hawkins, Andrew J. “Inside the Lab Where Waymo Is Building 
-the Brains for Its Driverless Cars.” The Verge, The Verge, 
-www.theverge.com/2018/5/9/17307156/google-waymo-driverless-cars-deep-learning-neural-net-interview, 2018.
+\label{[7]}[7] Wei-Ta Chu, Xiang-You Zheng, and Ding-Shiuan Ding, "Camera as Weather Sensor: Estimating Weather Information from Single Images," Journal of Visual Communications and Image Representation, vol. 46, pp. 233-249, 2017.
 
 \end{document}
